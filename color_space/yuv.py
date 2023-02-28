@@ -31,7 +31,7 @@ def getMatrixYUV2RGB(gamut, is_narrow=False, weight_bits=8, offset_bits=8):
     Yr, _, Yb = getMatrixRGB2XYZ(gamut)[1]
     M = getMatrixYPbPr2RGB(Yr, Yb)
 
-    scale = (2**offset_bits-1)/(np.array([219,224,224])<<(offset_bits-1)) if is_narrow else np.ones((3,1))
+    scale = (2**offset_bits-1)/(np.array([219,224,224])<<(offset_bits-8)) if is_narrow else np.ones((3,1))
     offset = np.array([[16],[128],[128]]) if is_narrow else np.array([[0],[128],[128]])
 
     return np.round((2**weight_bits)*scale*M), np.round(np.matmul(scale*M, -(offset << (offset_bits-8))))
