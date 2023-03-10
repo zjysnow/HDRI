@@ -130,3 +130,16 @@ dmypy.json
 
 # Add by AlbertZou
 run.py
+
+# Image/Video
+*.bmp
+*.jpg
+*.jpeg
+*.png
+*.mp4
+*.tiff
+*.gif
+*.yuv
+*.rgb
+*.avi
+*.mkv
