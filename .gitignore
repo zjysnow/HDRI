@@ -131,6 +131,9 @@ dmypy.json
 # Add by AlbertZou
 run.py
 
+# visual studio
+.vs
+
 # Image/Video
 *.bmp
 *.jpg
