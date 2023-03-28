@@ -1,21 +1,5 @@
 import numpy as np
 
-A   = 2856
-B   = 4878
-D50 = 5003
-D65 = 6504
-D75 = 7504
-D93 = 9305
-
-WhitePoint = {
-    # CCT(K) : [x,y]
-    2856: np.array([0.44757, 0.40745]), # A
-    4878: np.array([0.34842, 0.35161]), # B
-    5003: np.array([0.34567, 0.35850]), # D50
-    6504: np.array([0.31271, 0.32902]), # CIE D65 average daylight
-    7504: np.array([0.29902, 0.31485]), # D75 north sky daylight
-    9305: np.array([0.28315, 0.29711]), # D93, BT2035
-}
 
 BT709 = np.array([
     [0.64, 0.33],
