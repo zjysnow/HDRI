@@ -2,22 +2,25 @@ import numpy as np
 
 A   = 2856
 B   = 4878
+C   = 6774
 D50 = 5003
 D65 = 6504
 D75 = 7504
 D93 = 9305
+E   = 5454
+ 
 
 WhitePoint = {
     # reference https://en.wikipedia.org/wiki/Template:Color_temperature_white_points
     2856: np.array([0.44757,    0.40745]), # A
     4878: np.array([0.34842,    0.35161]), # B
+    6774: np.array([0.31006,    0.31616]), # C / NTSC
     5003: np.array([0.34567,    0.35850]), # D50
     6504: np.array([0.31271,    0.32902]), # CIE D65 average daylight
     7504: np.array([0.29902,    0.31485]), # D75 north sky daylight
     9305: np.array([0.28315,    0.29711]), # D93, BT2035
-
-    6768: np.array([0.3101,     0.3162]), # NTSC
-
+    5454: np.array([0.33333,    0.33333]), # E equal energy
+    
     # reference http://www.vendian.org/mncharity/dir3/blackbody/UnstableURLs/bbr_color.html
     1000:	np.array([0.6499,	0.3474]),
     1100:	np.array([0.6361,	0.3594]),
@@ -110,6 +113,8 @@ WhitePoint = {
     9800:	np.array([0.2835,	0.2912]),
     9900:	np.array([0.2829,	0.2905]),
     10000:	np.array([0.2824,	0.2898]),
+
+    40000: np.array([0.2487,    0.2438]),
 }
 
 
