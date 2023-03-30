@@ -21,8 +21,8 @@ M_cat02 = np.array([
     [0.0030, 0.0136, 0.9834]
 ])
 
-def getMatrixCCT(M_lms, M, Ts, Td):
-    def getWhitePointXYZ(M, T):
+def getMatrixCCT(M_lms, Ts, Td):
+    def getWhitePointXYZ(T):
         x, y = WhitePoint[T]
         # rgb = np.matmul(np.linalg.inv(M), np.array([[x/y],[1],[(1-x-y)/y]]))
         # rgb = rgb + np.maximum(0, -np.min(rgb))
@@ -30,5 +30,5 @@ def getMatrixCCT(M_lms, M, Ts, Td):
         # return np.matmul(M, rgb)
         return np.array([[x/y],[1],[(1-x-y)/y]])
 
-    scale = np.eye(3) * np.matmul(M_lms, getWhitePointXYZ(M, Td)) / np.matmul(M_lms, getWhitePointXYZ(M, Ts))
+    scale = np.eye(3) * np.matmul(M_lms, getWhitePointXYZ(Td)) / np.matmul(M_lms, getWhitePointXYZ(Ts))
     return np.matmul(np.linalg.inv(M_lms), np.matmul(scale, M_lms))
