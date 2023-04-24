@@ -148,3 +148,4 @@ run.py
 *.mkv
 
 data
+asr*
