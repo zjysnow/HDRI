@@ -8,6 +8,15 @@ def PQ(x):
     c3 = 2392 / 4096 * 32 
     return (np.maximum((x**(1/m2))-c1, 0) / (c2 - c3 * (x**(1/m2)))) ** (1/m1)
 
+def HLG(x):
+    a = 0.17883277
+    b = 1-4*a
+    c = 0.5-a*np.log(4*a)
+    return np.piecewise(x, [x<=1/2], [
+        lambda x: (x**2)/3,
+        lambda x: (np.exp((x-c)/a)+b)/12
+    ])
+
 def sRGB(x):
     return np.piecewise(
         x, [x < 0.04045], [
