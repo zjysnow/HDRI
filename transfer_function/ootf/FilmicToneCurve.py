@@ -49,9 +49,9 @@ class CurveSegment:
 
         return y0 * self.scale_y + self.offset_y
 
-mid = CurveSegment() 
-toe = CurveSegment()
-shoulder = CurveSegment()
+# mid = CurveSegment() 
+# toe = CurveSegment()
+# shoulder = CurveSegment()
 
 def solveAB(x0, y0, m):
     B = (m*x0)/y0
@@ -106,7 +106,7 @@ class FilmicToneCurve:
         toe_strength = np.clip(user_params.toe_strength, 0, 1)
         toe_length = np.clip(user_params.toe_length, 0, 1)**perceptual_gamma
         shoulder_strength = np.maximum(0, user_params.shoulder_strength) # np.clip(user_params.shoulder_strength, 0, 1)
-        shoulder_length = np.clip(user_params.shoulder_length, 1e-5, 1)
+        shoulder_length = np.clip(user_params.shoulder_length, 1e-5, 1) 
 
         shoulder_angle = np.clip(user_params.shoulder_angle, 0, 1)
         gamma = user_params.gamma
