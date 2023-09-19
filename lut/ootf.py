@@ -2,7 +2,6 @@ import numpy as np
 
 def interpolate(x, lut, input_bit = 24):
     bit = (input_bit - np.log2(lut.shape[0] - 1)).astype(np.uint64)
-    print(bit)
     idx = x >> bit
     x0 = idx << bit
     y0 = lut[idx]
