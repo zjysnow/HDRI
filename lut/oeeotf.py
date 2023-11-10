@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 
 def getLut2(func, input_bit = 12, lut_bit = 24, step_bit1 = 4, step_bit2 = 6, bvalue = 128):
     # input_bit = 12
-    lut_x1 = np.array(range(0, bvalue+(1<<step_bit1), 1<<step_bit1))/((1<<input_bit)-1)
-    lut_x2 = np.array(range(bvalue+(1<<step_bit2), (1<<input_bit)+(1<<step_bit2), 1<<step_bit2))/((1<<input_bit)-1)
+    lut_x1 = np.array(range(0, bvalue+(1<<step_bit1), 1<<step_bit1), dtype=np.float64)/((1<<input_bit)-1)
+    lut_x2 = np.array(range(bvalue+(1<<step_bit2), (1<<input_bit)+(1<<step_bit2), 1<<step_bit2), dtype=np.float64)/((1<<input_bit)-1)
 
     lut1 = np.round(func(lut_x1) * ((1<<lut_bit)-1)).astype(np.uint64)
     lut2 = np.round(func(lut_x2) * ((1<<lut_bit)-1)).astype(np.uint64)
@@ -86,7 +86,7 @@ def lutOETF(x, lut1, lut2, lut_bit = 24, step_bit1 = 4, step_bit2 = 6, bvalue:in
         lambda x: 0,
         lambda x: (x - 1) << step_bit1,
         lambda x: (1<<output_bit)-1,
-        lambda x: (x + ((1<<output_bit)>>step_bit2) - lut2.shape[0]) << step_bit2
+        lambda x: (x + ((1<<output_bit)>>step_bit2) - index2_max) << step_bit2
     ])
 
     step = (lut_max - lut_min).astype(np.int64)
@@ -99,10 +99,11 @@ def lutOETF(x, lut1, lut2, lut_bit = 24, step_bit1 = 4, step_bit2 = 6, bvalue:in
 
     level = np.zeros_like(x)
     level[step!=0] = np.minimum(resi_carry[step!=0] / step[step!=0], bvalue)
-    print(lut1_max)
+    
 
     inc = level >> 1
     inc[(x<lut1_max)&(level>((1<<(step_bit1+1))-1))] = (1<<step_bit1)
+    print(step.max())
     
     y = np.minimum(lut_base + inc, (1<<output_bit)-1)
     return y
