@@ -7,7 +7,7 @@ def calc_3dcolor(color, ct_table, input_bit = 12):
     ct_table 17*17*17*3
     '''
     shift_bit = input_bit - 5 + 1 # 17 use 5bits
-    shift_half = 1 << (shift_bit - 1)
+    rounding = 1 << (shift_bit - 1)
     index = (color >> shift_bit)
     resi = color - (index << shift_bit)
     
@@ -59,7 +59,7 @@ def calc_3dcolor(color, ct_table, input_bit = 12):
     su[mask,:] = p7[mask,:] - p5[mask,:]
     sv[mask,:] = p5[mask,:] - p4[mask,:]
 
-    return p0 + ((st*t[:,:,None] + su*u[:,:,None] + sv*v[:,:,None] + shift_half).astype(np.int64) >> shift_bit)
+    return p0 + ((st*t[:,:,None] + su*u[:,:,None] + sv*v[:,:,None] + rounding).astype(np.int64) >> shift_bit)
     
 
 if __name__ == "__main__":
@@ -70,6 +70,7 @@ if __name__ == "__main__":
                 ct_table[i,j,k,0] = i<<8
                 ct_table[i,j,k,1] = j<<8
                 ct_table[i,j,k,2] = k<<8
+    # ct_table[0,0,0] = [2048, 2048, 2048]
 
     color = np.random.randint(0, 4095, (112,112,3), dtype=np.int64)
 
@@ -128,5 +129,12 @@ if __name__ == "__main__":
     sv[mask,:] = p5[mask,:] - p4[mask,:]
 
     out = p0 + ((st*t[:,:,None] + su*u[:,:,None] + sv*v[:,:,None] + 128).astype(np.int64) >> 8)
+
+    diff = color - out
+    print(diff.max(), diff.min())
+
+    x = np.array(range(1024))/1023
+    plt.plot(x, x**(1/1.2))
+    plt.show()
     
     
