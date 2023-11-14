@@ -147,6 +147,7 @@ run.py
 *.avi
 *.mkv
 
-data
 asr*
 .DS_Store
+*.zip
+test*

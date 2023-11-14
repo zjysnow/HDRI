@@ -1,5 +1,5 @@
 import numpy as np
-from .laplacian_pyramid import laplacian_pyramid
+from .pyramid import laplacian_pyramid
 import copy
 
 class MultScale():
@@ -45,7 +45,6 @@ class MultScalLPYR(MultScale):
     def reconstruct(self):
         I = np.zeros((self.P.shape[1], self.P.shape[2]))
         for i in range(self.P.shape[0]):
-            # print(self.P[i].max(), self.P[i].min())
             I = I + self.P[i]
         return I.copy()
 
