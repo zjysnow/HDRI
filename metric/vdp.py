@@ -32,8 +32,7 @@ class VDP():
         if task == "civdm": 
             self.mult_scale = MultScalLPYR()
         else:
-            print("not support now")
-            ValueError
+            NotImplemented
 
         self.age = age
         self.do_aod = True
@@ -47,7 +46,6 @@ class VDP():
         self.data_path = os.path.join(os.path.dirname(__file__), "data")
 
     def create_pn_jnd(self):
-
         def build_jndspace_from_S(l, S):
             # L = 10**l
             dL = S * np.log(10)
@@ -76,7 +74,7 @@ class VDP():
             IMG_E = np.sum(IMG_E, 1)
 
         if img_channels != IMG_E.shape[1]:
-            ValueError
+            NotImplemented
         
         self.spectral_emission = IMG_E
 
@@ -95,17 +93,9 @@ class VDP():
 
         for b in range(B_T.band_count()):
             self.S[:,b] = self.csf.ncsf(band_freq[b])
-        # print(S)
-        # plt.plot(csf.S)
-        # plt.show()
-        # L_mean_adapt = (L_adapt_test+ L_adapt_reference)/2
-        # log_La = np.log10(np.clip(L_mean_adapt, csf.csf_la[0], csf.csf_la[-1]))
 
         res = self.civdm(B_T, L_adapt_test, B_R, L_adapt_reference)
 
-        # print(res[0].max(), res[0].min())
-        # plt.imshow(res[0])
-        # plt.show()
         return res
 
     def visual_pathway(self, img):
@@ -131,11 +121,6 @@ class VDP():
         # =================================
         # Precompute photoreceptor non-linearity
         # =================================
-
-        # pn = hdrvdp_get_from_cache( 'pn', [metric_par.rod_sensitivity metric_par.csf_sa], @() create_pn_jnd( metric_par ) )
-
-        # pn.jnd{1} = pn.jnd{1} * 10.^metric_par.sensitivity_correction
-        # pn.jnd{2} = pn.jnd{2} * 10.^metric_par.sensitivity_correction
 
         Y, jnd = self.create_pn_jnd()
         jnd = jnd * 10**self.sensitivity_correction
@@ -163,8 +148,7 @@ class VDP():
 
             trans_filter = 10**(-pchip_interpolate(lam, OD-OD_y, np.clip(l, lam[0], lam[-1])))
             IMG_E = IMG_E * trans_filter.reshape(-1,1) # repmat(trans_filter.T, 1, IMG_E.shape[1])
-
-        
+       
         M_img_lmsr = np.zeros((img_ch, 4))
         for i in range(4):
             for c in range(img_ch):
@@ -230,7 +214,7 @@ class VDP():
             log_La_ref_rs = np.clip(np.log10(cv2.resize(L_adapt_reference, dsize=(bsize[1], bsize[0]), interpolation=cv2.INTER_CUBIC)), self.csf.csf_log_la[0], self.csf.csf_log_la[-1])
             CSF_b_ref = np.interp(log_La_ref_rs, self.csf.csf_log_la, self.S[:,b])
 
-            for o in range(B_T.orient_count(b)):
+            for _ in range(B_T.orient_count(b)):
                 if b == B_T.band_count()-1 or B_T.band_freqs[b] <= 2:
                     test = B_T.get_band(b)
                     P_loss = P_loss.set_band(b, np.zeros(test.shape))
@@ -272,6 +256,4 @@ class VDP():
         ampl = 1 - np.exp(-np.abs(P_ampl.reconstruct()))
         rev  = 1 - np.exp(-np.abs(P_rev.reconstruct()))
         return loss, ampl, rev
-    
-if __name__ == "__main__":
-    pass
+

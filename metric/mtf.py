@@ -18,7 +18,7 @@ class MTF:
             return self.hdrvdp(rho)
         if self.method == "cie99":
             return self.otf_cie99(rho)
-        TypeError
+        NotImplemented
 
     def hdrvdp(self, rho):
         MTF = np.zeros_like(rho)
