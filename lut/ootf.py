@@ -12,7 +12,6 @@ def interpolate(x, lut, input_bit = 24):
 def lutOOTF(x, gain_lut, lut_bit = 16, input_bit = 24):
     gain = interpolate(x, gain_lut, input_bit)
     rounding = 1<<(lut_bit-1)
-    print(gain)
     y = (x * gain + rounding).astype(np.uint64) >> lut_bit
     y = np.clip(y, 0, (1<<input_bit)-1)
     return y

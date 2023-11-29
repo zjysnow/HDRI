@@ -1,13 +1,14 @@
 import numpy as np
 
-A   = 2856
-B   = 4878
-C   = 6774
-D50 = 5003
-D65 = 6504
-D75 = 7504
-D93 = 9305
-E   = 5454
+A    = 2856
+B    = 4878
+C    = 6774
+D50  = 5003
+D65  = 6504
+D75  = 7504
+D93  = 9305
+E    = 5454
+ACSE = 5998
  
 
 WhitePoint = {
@@ -20,6 +21,8 @@ WhitePoint = {
     7504: np.array([0.29902,    0.31485]), # D75 north sky daylight
     9305: np.array([0.28315,    0.29711]), # D93, BT2035
     5454: np.array([0.33333,    0.33333]), # E equal energy
+
+    5998: np.array([0.32168,    0.33767]), # ACSE
     
     # reference http://www.vendian.org/mncharity/dir3/blackbody/UnstableURLs/bbr_color.html
     1000:	np.array([0.6499,	0.3474]),
