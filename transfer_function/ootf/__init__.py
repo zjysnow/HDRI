@@ -1,5 +1,6 @@
 import numpy as np
 from .FilmicToneCurve import *
+from .reference import *
 
 def GTO(x, b, c, dl, dh):
     '''
