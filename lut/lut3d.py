@@ -6,7 +6,9 @@ def calc_3dcolor(color, ct_table, input_bit = 12):
     color h*w*3
     ct_table 17*17*17*3
     '''
-    shift_bit = input_bit - 5 + 1 # 17 use 5bits
+    table_size = ct_table.shape[0]
+    b = (np.log2(table_size) + 1).astype(np.int32)
+    shift_bit = input_bit - b + 1 # 17 use 5bits
     rounding = 1 << (shift_bit - 1)
     index = (color >> shift_bit)
     resi = color - (index << shift_bit)
