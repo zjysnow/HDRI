@@ -22,6 +22,36 @@ def XYZ2RGB(X,Y,Z, primary_color = BT709, white_point = WhitePoint[D65]):
     return R,G,B
 
 
+def XYZ2Lab(X,Y,Z, white_point = WhitePoint[D65]):
+    Xw, Yw, Zw = xyY2XYZ(white_point[0], white_point[1], 1)
+    ep = 216/24389
+    kp = 24389/27
+    x = X / Xw
+    y = Y / Yw
+    z = Z / Zw
+    fx = x**(1/3) if x > ep else (kp*x+16)/116
+    fy = y**(1/3) if y > ep else (kp*y+16)/116
+    fz = z**(1/3) if z > ep else (kp*z+16)/116
+    L = 116*fy-16
+    a = 500*(fx-fy)
+    b = 200*(fy-fz)
+    return L, a, b
+
+def Lab2XYZ(L,a,b,white_point=WhitePoint[D65]):
+    Xw, Yw, Zw = xyY2XYZ(white_point[0], white_point[1], 1)
+    ep = 216/24389
+    kp = 24389/27
+    fy = (L + 16)/116
+    fx = a/500+fy
+    fz = fy-b/200
+    x = fx**3 if fx**3>ep else (116*fx-16)/kp
+    y = ((L+16)/116)**3 if L > kp*ep else L/kp
+    z = fz**3 if fz**3>ep else (116*fz-16)/kp
+    X = x*Xw
+    Y = y*Yw
+    Z = z*Zw
+    return X,Y,Z
+
 def RGB2HSV(R,G,B):
     Cmax = np.max([R,G,B])
     Cmin = np.min([R,G,B])
@@ -72,4 +102,3 @@ def HSV2RGB(H,S,V):
         return t,p,V
     if h == 5:
         return V,p,q
-    
