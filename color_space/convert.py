@@ -8,6 +8,11 @@ def xyY2XYZ(x,y,Y):
     Z = (1-x-y)*Y/y
     return X,Y,Z
 
+def XYZ2xyY(X,Y,Z):
+    x = X/(X+Y+Z)
+    y = Y/(X+Y+Z)
+    return x,y,Y
+
 def RGB2XYZ(R,G,B, primary_color = BT709, white_point = WhitePoint[D65]):
     '''
     default is sRGB(BT709) D65
@@ -61,8 +66,10 @@ def RGB2HSV(R,G,B):
     if delta == 0:
         H = 0
     else:
-        if Cmax == R:
+        if Cmax == R and G >= B:
             H = ((G-B)/delta+0)/6
+        if Cmax == R and G < B:
+            H = ((G-B)/delta+6)/6
         if Cmax == G:
             H = ((B-R)/delta+2)/6
         if Cmax == B:

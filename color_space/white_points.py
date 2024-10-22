@@ -9,6 +9,7 @@ D75  = 7504
 D93  = 9305
 E    = 5454
 ACSE = 5998
+DCI = 6304
  
 
 WhitePoint = {
@@ -17,6 +18,7 @@ WhitePoint = {
     4878: np.array([0.34842,    0.35161]), # B
     6774: np.array([0.31006,    0.31616]), # C / NTSC
     5003: np.array([0.34567,    0.35850]), # D50
+    6304: np.array([0.314,      0.351]),   # SMPTE 432
     6504: np.array([0.31271,    0.32902]), # CIE D65 average daylight
     7504: np.array([0.29902,    0.31485]), # D75 north sky daylight
     9305: np.array([0.28315,    0.29711]), # D93, BT2035
@@ -124,3 +126,7 @@ WhitePoint = {
 def getColorTemperature(white_point):
     n = (white_point[0] - 0.3320) / (0.1858 - white_point[1])
     return 437 * (n**3) + 3601 * (n**2) + 6831 * n + 5517
+
+if __name__ == "__main__":
+    x = [0.314, 0.351]
+    print(getColorTemperature(x))

@@ -9,9 +9,13 @@ def calc_3dcolor(color, ct_table, input_bit = 12):
     table_size = ct_table.shape[0]
     b = (np.log2(table_size) + 1).astype(np.int32)
     shift_bit = input_bit - b + 1 # 17 use 5bits
-    rounding = 1 << (shift_bit - 1)
-    index = (color >> shift_bit)
-    resi = color - (index << shift_bit)
+    base = ((1<<input_bit) - 1) // (table_size - 1) + 1
+    print("base:",base)
+    rounding = base >> 1 # 1 << (shift_bit - 1)
+    index = np.clip(color // base, 0, table_size-2) # (color >> shift_bit)
+    # print("debug:",base, shift_bit, b, table_size)
+    # index = color >> shift_bit
+    resi = color - (index * base)
     
     i,j,k = index[:,:,0], index[:,:,1], index[:,:,2]
     t,u,v = resi[:,:,0], resi[:,:,1], resi[:,:,2]
@@ -61,6 +65,7 @@ def calc_3dcolor(color, ct_table, input_bit = 12):
     su[mask,:] = p7[mask,:] - p5[mask,:]
     sv[mask,:] = p5[mask,:] - p4[mask,:]
 
+    # return p0 + ((st*t[:,:,None] + su*u[:,:,None] + sv*v[:,:,None] + rounding).astype(np.int64) // base) #>> shift_bit)
     return p0 + ((st*t[:,:,None] + su*u[:,:,None] + sv*v[:,:,None] + rounding).astype(np.int64) >> shift_bit)
     
 
@@ -135,8 +140,8 @@ if __name__ == "__main__":
     diff = color - out
     print(diff.max(), diff.min())
 
-    x = np.array(range(1024))/1023
-    plt.plot(x, x**(1/1.2))
-    plt.show()
+    # x = np.array(range(1024))/1023
+    # plt.plot(x, x**(1/1.2))
+    # plt.show()
     
     
